@@ -119,18 +119,10 @@
 
     /* 📱 Адаптив */
 @media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
-    justify-items: start;   /* прижимаем содержимое к левому краю */
-  }
+  .features { grid-template-columns: repeat(2,1fr); }
 }
-
 @media (max-width: 600px) {
-  .hero-card,
-  .mockup {
-    width: 100%;            /* займут всю ширину */
-    justify-self: start;    /* ещё раз прижимаем влево */
-  }
+  .features { grid-template-columns: 1fr; }
 }
 
 
