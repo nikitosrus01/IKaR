@@ -118,15 +118,38 @@
     .lightbox-arrow.right { right: 20px; }
 
     /* 📱 Адаптив */
+/* 📱 Мобильные стили */
 @media (max-width: 900px) {
+  /* Hero-блок (чтобы карточка и картинка были слева и друг под другом) */
+  .hero {
+    grid-template-columns: 1fr;
+    justify-items: start;   /* прижать влево */
+  }
+  .hero-card,
+  .mockup {
+    width: 100%;
+    justify-self: start;
+  }
+
+  /* Особенности (Инженерия / Программирование / Исследования) */
   .features {
-    grid-template-columns: 1fr;   /* одна колонка */
-    justify-items: start;         /* прижать к левому краю */
+    grid-template-columns: 1fr;  /* один под другим */
+    justify-items: start;
   }
   .feature {
     width: 100%;
   }
+
+  /* Команда */
+  .team-grid {
+    grid-template-columns: 1fr;  /* участники друг за другом */
+    justify-items: start;
+  }
+  .person {
+    width: 100%;
+  }
 }
+
 
 
 
@@ -279,7 +302,7 @@
       <div class="small">© 2025 @nikitosrus01 — 2 программиста • 2 инженера</div>
     </footer>
   </div>
-
+  
 
   <div class="lightbox" id="lightbox">
     <span class="lightbox-close" id="lightboxClose">&times;</span>
