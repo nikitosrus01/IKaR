@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ИКаР — Инженерные кадры России</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:rgba(255,255,255,0.04);
+      --accent:#6ee7b7;
+      --muted:#93a4b8;
+      --glass: rgba(255,255,255,0.03);
+    }
+    *{box-sizing:border-box}
+    html { scroll-behavior: smooth; }
+    body{
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      margin:0;
+      background:linear-gradient(180deg,#061021 0%, #0f1724 60%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      user-select:none;
+    }
+    input, textarea, button { user-select:auto; }
+
+    body.light {
+      background: linear-gradient(180deg, #f7fafc 0%, #e2e8f0 60%);
+      color:#1a202c;
+    }
+    body.light nav a { color:#4a5568; }
+    body.light .hero-card,
+    body.light .feature,
+    body.light .person,
+    body.light .docs,
+    body.light footer { background:rgba(0,0,0,0.05); }
+    body.light .small { color:#4a5568; }
+
+    .container{max-width:1100px;margin:0 auto;padding:32px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#60a5fa);display:flex;align-items:center;justify-content:center;font-weight:800;color:#04202a}
+    .brand h1{margin:0;font-size:18px;letter-spacing:0.6px}
+    nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-weight:600}
+    nav a.cta{background:linear-gradient(90deg,var(--accent),#60a5fa);padding:10px 14px;border-radius:10px;color:#04202a}
+
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:36px}
+    .hero-card{background:var(--card);border-radius:16px;padding:28px;backdrop-filter:blur(6px);box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+    .eyebrow{color:var(--accent);font-weight:700;display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg, rgba(110,231,183,0.12), rgba(96,165,250,0.08));}
+    h2{margin:12px 0 8px;font-size:30px}
+    p.lead{color:var(--muted);line-height:1.5}
+    .specs{display:flex;gap:12px;margin-top:18px}
+    .spec{background:var(--glass);padding:12px;border-radius:10px;text-align:center;min-width:110px}
+    .spec b{display:block;font-size:18px}
+
+    .mockup img{width:100%;height:260px;object-fit:cover;border-radius:10px;cursor:pointer}
+
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+    .feature{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;transition:transform .25s}
+    .feature h3{margin:8px 0}
+    .feature:hover{transform:translateY(-8px)}
+
+    .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+    .person{padding:14px;border-radius:12px;text-align:center}
+    .person img{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:8px}
+    .name{font-weight:700;margin-bottom:4px}
+    .role{color:var(--muted);font-size:13px;margin-bottom:6px}
+    .contacts a{color:var(--accent);text-decoration:none;font-size:14px}
+    .contacts svg{width:14px;height:14px;vertical-align:middle;margin-right:4px}
+
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:26px}
+    .gallery img{width:100%;height:140px;object-fit:cover;border-radius:8px;cursor:pointer}
+
+    .docs{margin-top:32px;padding:18px;border-radius:12px;}
+    .docs a{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;background:var(--accent);color:#04202a;text-decoration:none;font-weight:600}
+
+    footer{margin-top:48px;padding:22px;border-radius:12px;display:flex;justify-content:space-between;align-items:center}
+    .small{color:var(--muted);font-size:13px}
+
+
+    .theme-toggle{
+      position:fixed;
+      bottom:20px;
+      right:20px;
+      width:46px;
+      height:46px;
+      border-radius:50%;
+      border:none;
+      background:var(--accent);
+      color:#04202a;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 4px 12px rgba(0,0,0,0.4);
+      transition:transform .25s;
+      z-index:10000;
+    }
+
+
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      z-index: 9999;
+    }
+    .lightbox.active { opacity: 1; visibility: visible; }
+    .lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .lightbox-close { position: absolute; top: 20px; right: 30px; font-size: 32px; color: white; cursor: pointer; }
+    .lightbox-arrow { position: absolute; top: 50%; font-size: 48px; color: white; cursor: pointer; user-select: none; }
+    .lightbox-arrow.left { left: 20px; }
+    .lightbox-arrow.right { right: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">ИК</div>
+        <div>
+          <h1>Икар</h1>
+          <div class="small">Школьный проект: беспилотник</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#about">О проекте</a>
+        <a href="#team">Команда</a>
+        <a href="#gallery">Галерея</a>
+        <a href="#docs">Документация</a>
+        <a href="#contact">Связаться</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card">
+        <span class="eyebrow">ИКаР 2025</span>
+        <h2>Беспилотник "лабуба"</h2>
+        <p class="lead">Проект школьной команды инженеров и программистов.</p>
+        <div class="specs">
+          <div class="spec"><b>9999 мин</b><span class="role">время полёта</span></div>
+          <div class="spec"><b>1024К</b><span class="role">камера</span></div>
+          <div class="spec"><b>7 км</b><span class="role">дальность</span></div>
+        </div>
+      </div>
+      
+      <aside class="mockup">
+        <img src="img/ikar.png" alt="Беспилотник AeroNova" style="width:400px; height:auto;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+          <div>
+            <div style="font-weight:800">лабуба — прототип</div>
+            <div class="small" style="margin-top:6px;color:var(--muted)">Икар круче сириуса</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:700">Статус</div>
+            <div class="small">В разработке • Тестирование проходит</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="about" class="features">
+      <div class="feature">
+        <h3>Инженерия</h3>
+        <p>Современные материалы и конструкторские решения для лёгкости и прочности.</p>
+      </div>
+      <div class="feature">
+        <h3>Программирование</h3>
+        <p>Собственная прошивка для навигации и управления.</p>
+      </div>
+      <div class="feature">
+        <h3>Исследования</h3>
+        <p>Испытания в разных условиях, сбор и анализ данных.</p>
+      </div>
+    </section>
+
+    <section id="team" style="margin-top:30px">
+      <h2>Команда</h2>
+      <div class="team-grid">
+        <div class="person">
+          <img src="img/kirill.png" alt="Фото программиста Кирилл">
+          <div class="name">Зинин Кирилл</div>
+          <div class="role">Программист</div>
+          <div class="contacts">
+            ✉️ <a href="mailto:kirill@example.com">Кирилл@почта.ру</a><br>
+            💬 <a href="https://t.me/lunToH0" target="_blank">@lunToH0</a>
+          </div>
+        </div>
+        <div class="person">
+          <img src="img/masha.png" alt="Фото программиста Мария">
+          <div class="name">Коробейникова Мария</div>
+          <div class="role">Программист</div>
+          <div class="contacts">
+            ✉️ <a href="mailto:masha@example.com">Маша@почта.ру</a><br>
+            💬 <a href="https://t.me/koro_mar" target="_blank">@koro_mar</a>
+          </div>
+        </div>
+        <div class="person">
+          <img src="img/nik.png" alt="Фото инженера Никита">
+          <div class="name">Голубицкий Никита</div>
+          <div class="role">Инженер</div>
+          <div class="contacts">
+            ✉️ <a href="mailto:nikita@example.com">nikitorus01@gmail.com</a><br>
+            💬 <a href="https://t.me/nikitosrus01" target="_blank">@nikitosrus01</a>
+          </div>
+        </div>
+        <div class="person">
+          <img src="img/ser.png" alt="Фото инженера Сергей">
+          <div class="name">Сергей Охотин</div>
+          <div class="role">Инженер</div>
+          <div class="contacts">
+            ✉️ <a href="mailto:sergey@example.com">сергей@почта.ру</a><br>
+            💬 <a href="https://t.me/SergeyOkhotin" target="_blank">@SergeyOkhotin</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <h2>Галерея</h2>
+      <div class="gallery">
+        <img src="img/drone.png" alt="дрон на столе">
+        <img src="img/drone2.png" alt="команда">
+        <img src="img/drone1.png" alt="испытания">
+      </div>
+    </section>
+
+    <section id="docs" class="docs">
+      <h2>Документация</h2>
+      <p class="lead">Здесь можно скачать техническую документацию проекта в формате PDF:</p>
+      <a href="docs/aeronova-docs.pdf" class="btn primary">Скачать PDF</a>
+    </section>
+
+    <section id="contact" style="margin-top:30px">
+      <h2>Связаться</h2>
+      <p class="lead">Хотите сотрудничать, организовать демонстрацию или задать вопрос — напишите нам.</p>
+      <form onsubmit="event.preventDefault();alert('Спасибо! Форма отправлена.');" style="display:flex;gap:12px;flex-wrap:wrap">
+        <input type="text" placeholder="Имя" required style="flex:1;min-width:180px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
+        <input type="email" placeholder="Email" required style="flex:1;min-width:200px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
+        <textarea placeholder="Сообщение" required style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit"></textarea>
+        <div style="width:100%;display:flex;justify-content:flex-end">
+          <button class="btn primary">Отправить</button>
+        </div>
+      </form>
+    </section>
+
+    <footer>
+      <div class="small">© 2025 @nikitosrus01 — 2 программиста • 2 инженера</div>
+    </footer>
+  </div>
+
+
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <span class="lightbox-arrow left" id="lightboxPrev">&#10094;</span>
+    <img src="" alt="Просмотр фото" id="lightboxImg">
+    <span class="lightbox-arrow right" id="lightboxNext">&#10095;</span>
+  </div>
+
+
+  <button class="theme-toggle" id="themeToggle">☀️</button>
+
+  <script>
+
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      themeToggle.textContent = document.body.classList.contains('light') ? '🌙' : '☀️';
+    });
+
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    const galleryImages = document.querySelectorAll('.gallery img');
+    let currentIndex = 0;
+
+    function showLightbox(index) {
+      currentIndex = index;
+      lightboxImg.src = galleryImages[currentIndex].src;
+      lightbox.classList.add('active');
+    }
+    function closeLightbox() { lightbox.classList.remove('active'); }
+    function showPrev() { showLightbox((currentIndex - 1 + galleryImages.length) % galleryImages.length); }
+    function showNext() { showLightbox((currentIndex + 1) % galleryImages.length); }
+
+    galleryImages.forEach((img, i) => img.addEventListener('click', () => showLightbox(i)));
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', showPrev);
+    lightboxNext.addEventListener('click', showNext);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'ArrowRight') showNext();
+    });
+  </script>
+</body>
+</html>
+
