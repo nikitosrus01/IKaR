@@ -119,11 +119,15 @@
 
     /* 📱 Адаптив */
 @media (max-width: 900px) {
-  .features { grid-template-columns: repeat(2,1fr); }
+  .features {
+    grid-template-columns: 1fr;   /* одна колонка */
+    justify-items: start;         /* прижать к левому краю */
+  }
+  .feature {
+    width: 100%;
+  }
 }
-@media (max-width: 600px) {
-  .features { grid-template-columns: 1fr; }
-}
+
 
 
   .hero-card,
