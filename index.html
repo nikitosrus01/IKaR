@@ -118,16 +118,21 @@
     .lightbox-arrow.right { right: 20px; }
 
     /* 📱 Адаптив */
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-      .features { grid-template-columns: repeat(2,1fr); }
-      .team-grid { grid-template-columns: repeat(2,1fr); }
-      .gallery { grid-template-columns: repeat(2,1fr); }
-    }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .hero {
-    justify-items: start; /* выравнивает содержимое по левому краю */
+    grid-template-columns: 1fr;
+    justify-items: start;   /* прижимаем содержимое к левому краю */
   }
+}
+
+@media (max-width: 600px) {
+  .hero-card,
+  .mockup {
+    width: 100%;            /* займут всю ширину */
+    justify-self: start;    /* ещё раз прижимаем влево */
+  }
+}
+
 
   .hero-card,
   .mockup {
